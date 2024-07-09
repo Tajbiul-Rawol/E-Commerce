@@ -23,6 +23,21 @@
             "id": 2,
             "catid": 1,
             "title": "whirlpool white fridge freezer"
+        },
+        {
+            "id": 3,
+            "catid": 2,
+            "title": "Walton electric kettle"
+        },
+        {
+            "id": 4,
+            "catid": 3,
+            "title": "Sony Television Bravia"
+        },
+        {
+            "id": 5,
+            "catid": 3,
+            "title": "Samsung 50 inch Dynamic amoled"
         }
     ]
 }
