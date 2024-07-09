@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
+import Category from './components/Category';
 
 function App() {
   const [results, setResults] = useState([]);
@@ -14,14 +15,20 @@ function App() {
       });
   }, []);
 
+  const renderCategories = () => {
+    return results.map(c =>
+      <Category key={c.id} title={c.title} id={c.id} />
+    )
+  }
+
   return (
     <>
       <header> E-Store</header>
       <section>
         <nav>
-          {results.map(d => (
-            <div key={d.id}>{d.title}</div>
-          ))}
+          {
+            results && renderCategories()
+          }
         </nav>
         <article>
           main area
