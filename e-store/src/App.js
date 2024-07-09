@@ -2,35 +2,36 @@ import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import Category from './components/Category';
+import { getCategories, getProducts } from './api/api';
 
 function App() {
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState({ message: '', data: [] });
+  const [products, setProducts] = useState({ message: '', data: [] });
 
   useEffect(() => {
-    fetch("http://localhost:5000/categories")
-      .then((response) => response.json())
-      .then(data => {
-        setCategories(data);
-      });
+    const fetchCategoryData = async () => {
+      const responseObject = await getCategories();
+      setCategories(responseObject);
+    }
+    fetchCategoryData();
   }, []);
 
   const handleCategoryClick = id => {
-    fetch(`http://localhost:5000/products?catid=${id}`)
-      .then((response) => response.json())
-      .then(data => {
-        setProducts(data)
-      });
+    const fetchProductData = async () => {
+      const data = await getProducts(id);
+      setProducts(data);
+    }
+    fetchProductData();
   }
 
   const renderCategories = () => {
-    return categories.map(c =>
+    return categories.data.map(c =>
       <Category onCategoryClick={() => { handleCategoryClick(c.id) }} key={c.id} title={c.title} id={c.id} />
     )
   }
 
   const renderProducts = () => {
-    return products.map(p =>
+    return products.data.map(p =>
       <div key={p.id}>{p.title}</div>
     )
   }
@@ -40,12 +41,14 @@ function App() {
       <header> E-Store</header>
       <section>
         <nav>
+          {categories.message && <div>Error: {categories.message}</div>}
           {
-            categories && renderCategories()
+            categories.data && renderCategories()
           }
         </nav>
         <article>
           <h1>Products</h1>
+          {products.message && <div>Error: {products.message}</div>}
           {products && renderProducts()}
         </article>
       </section>
