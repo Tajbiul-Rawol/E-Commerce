@@ -98,6 +98,28 @@ footer a {
   color: white;
 }
 
+.category-product-title {
+  margin: 4vh;
+}
+
+.category-product-description {
+  margin: 4vh;
+}
+
+.category-product-finance {
+  margin: 4vh;
+}
+
+.category-product-action {
+  margin-right: 20px;
+}
+
+.submitButton {
+  margin-right: 10px;
+  margin-top: 6px;
+  padding: 2px;
+}
+
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 @media (max-width: 600px) {
   section {

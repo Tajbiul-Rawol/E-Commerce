@@ -7,6 +7,9 @@ const fetcher = async (url) => {
     };
     try {
         const response = await fetch(BASE_URL + url)
+        if (!response.ok) {
+            throw new Error(`http error ${response.status}`);
+        }
         const responseData = await response.json();
         responseObject.data = responseData;
         responseObject.message = '';
@@ -23,5 +26,6 @@ export const getCategories = () => {
 
 
 export const getProducts = (id) => {
-    return fetcher('/products?catid=' + id);
+    console.log(id);
+    return fetcher('/products?catId=' + id);
 }

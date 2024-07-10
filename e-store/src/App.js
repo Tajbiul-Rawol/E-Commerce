@@ -3,6 +3,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import Category from './components/Category';
 import { getCategories, getProducts } from './api/api';
+import CategoryProduct from './components/CategoryProduct';
 
 function App() {
   const [categories, setCategories] = useState({ message: '', data: [] });
@@ -17,6 +18,7 @@ function App() {
   }, []);
 
   const handleCategoryClick = id => {
+    console.log(id);
     const fetchProductData = async () => {
       const data = await getProducts(id);
       setProducts(data);
@@ -32,7 +34,7 @@ function App() {
 
   const renderProducts = () => {
     return products.data.map(p =>
-      <div key={p.id}>{p.title}</div>
+      <CategoryProduct key={p.id} {...p}>{p.title}</CategoryProduct>
     )
   }
 
@@ -46,11 +48,11 @@ function App() {
             categories.data && renderCategories()
           }
         </nav>
-        <article>
+        <main>
           <h1>Products</h1>
           {products.message && <div>Error: {products.message}</div>}
           {products && renderProducts()}
-        </article>
+        </main>
       </section>
       <footer>footer</footer>
     </>
