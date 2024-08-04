@@ -1,13 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
+import { getCategories } from './api/api';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ProductDetail } from './components/ProductDetail';
+import { Checkout } from './components/Checkout';
+import { Basket } from './components/Basket';
 import Category from './components/Category';
-import { getCategories, getProducts } from './api/api';
-import CategoryProduct from './components/CategoryProduct';
+import Layout from './components/Layout';
+import Home from './components/Home';
+
 
 function App() {
   const [categories, setCategories] = useState({ message: '', data: [] });
-  const [products, setProducts] = useState({ message: '', data: [] });
 
   useEffect(() => {
     const fetchCategoryData = async () => {
@@ -17,44 +21,22 @@ function App() {
     fetchCategoryData();
   }, []);
 
-  const handleCategoryClick = id => {
-    console.log(id);
-    const fetchProductData = async () => {
-      const data = await getProducts(id);
-      setProducts(data);
-    }
-    fetchProductData();
-  }
 
-  const renderCategories = () => {
-    return categories.data.map(c =>
-      <Category onCategoryClick={() => { handleCategoryClick(c.id) }} key={c.id} title={c.title} id={c.id} />
-    )
-  }
 
-  const renderProducts = () => {
-    return products.data.map(p =>
-      <CategoryProduct key={p.id} {...p}>{p.title}</CategoryProduct>
-    )
-  }
 
   return (
     <>
-      <header> E-Store</header>
-      <section>
-        <nav>
-          {categories.message && <div>Error: {categories.message}</div>}
-          {
-            categories.data && renderCategories()
-          }
-        </nav>
-        <main>
-          <h1>Products</h1>
-          {products.message && <div>Error: {products.message}</div>}
-          {products && renderProducts()}
-        </main>
-      </section>
-      <footer>footer</footer>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Layout categories={categories} />}>
+            <Route index element={<Home />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/basket' element={<Basket />} />
+            <Route path='/products/:productId' element={<ProductDetail />} />
+            <Route path='/categories/:categoryId' element={<Category />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

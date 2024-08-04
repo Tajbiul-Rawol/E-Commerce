@@ -11,7 +11,7 @@ const CatgoryProduct = ({ id, title, image, specs, features, price, stock }) => 
 
             <figure>
                 <div className='category-product-image-container'>
-                    <img src={`./assets/${image}`} alt={title} />
+                    <img src={`/assets/${image}`} alt={title} />
                 </div>
             </figure>
 
@@ -46,7 +46,7 @@ const CatgoryProduct = ({ id, title, image, specs, features, price, stock }) => 
                 </div>
 
                 <div className='category-product-action'>
-                    <button className='submitButton' onClick={() => { navigate(`products/${id}`) }}>View Product</button>
+                    <button className='submitButton' onClick={() => { navigate(`/products/${id}`) }}>View Product</button>
                     <button className='submitButton'>Add to basket</button>
                 </div>
             </aside>
