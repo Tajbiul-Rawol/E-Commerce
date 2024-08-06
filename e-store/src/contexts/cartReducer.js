@@ -2,7 +2,7 @@ export const CartReducer = (state, action) => {
     debugger;
     switch (action.type) {
         case 'ADD':
-            const index = state.cartItems.FindIndex(x => x.id === action.payload.id);
+            const index = state.cartItems.findIndex(x => x.id === action.payload.id);
             if (index === -1) {
                 state.cartItems.push({ ...action.payload, quantity: 1 });
             } else {

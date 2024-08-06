@@ -20,7 +20,7 @@ const CartContextprovider = ({ children }) => {
         addProduct,
         ...state
     }
-
+    console.log(contextValues);
     return (
         <CartContext.Provider value={contextValues}>
             {children}
