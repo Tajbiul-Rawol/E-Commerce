@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getProductById } from '../api/api';
+import { CartContext } from '../contexts/cartContext';
 
 export const ProductDetail = () => {
     const [product, setProduct] = useState({ message: '', data: {} });
+    const { id, title, price } = product.data;
     const params = useParams();
-
+    const { addProduct } = useContext(CartContext);
     useEffect(() => {
         const getProductbyIdData = async () => {
             const responseObject = await getProductById(params.productId);
             setProduct(responseObject);
+            console.log(product.data);
         }
         getProductbyIdData();
     }, [params.productId]);
@@ -61,7 +64,7 @@ export const ProductDetail = () => {
                 </div>
 
                 <div className='category-product-action'>
-                    <button className='submitButton'>Add to basket</button>
+                    <button className='submitButton' onClick={() => addProduct({ id, title, price })}>Add to basket</button>
                 </div>
             </aside>
 

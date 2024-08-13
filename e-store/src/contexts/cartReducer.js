@@ -1,5 +1,4 @@
 export const CartReducer = (state, action) => {
-    debugger;
     let index = -1;
     if (action.payload) {
         index = state.cartItems.findIndex(x => x.id === action.payload.id);

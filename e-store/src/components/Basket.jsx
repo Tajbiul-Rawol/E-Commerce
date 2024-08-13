@@ -1,8 +1,68 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { CartContext } from '../contexts/cartContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Basket = () => {
 
     const [hover, setHover] = useState(false);
+    const navigate = useNavigate();
+    const { getItems, clearBasket } = useContext(CartContext);
+    var total = 0;
+
+    const itemTitle = {
+        fontSize: '0.9rem',
+        paddingTop: '2px',
+        paddingBottom: '14px',
+        fontWeight: 'bold'
+    }
+
+    const itemQuantity = {
+        paddingLeft: '30px',
+        fontWeight: 'bold'
+    }
+
+    const itemPrice = {
+        paddingLeft: '5px',
+        fontWeight: 'bold'
+    }
+
+    const clearCart = () => {
+        clearBasket();
+        total = 0;
+    }
+
+    const renderCart = () => {
+        //render cart
+        const cartItems = getItems();
+        //calculte total
+        calculateTotal(cartItems);
+        console.log(cartItems)
+        if (cartItems.length > 0) {
+            return cartItems.map(e => (
+                <>
+                    <div key={e.id} style={itemTitle} >
+                        <Link to={`/products/${e.id}`}>
+                            {e.title}
+                        </Link>
+                    </div>
+                    <div style={itemQuantity}>
+                        {e.quantity}
+                    </div>
+                    <div style={itemPrice}>
+                        {e.price}
+                    </div>
+                </>
+            ));
+        } else {
+            return <div>The Basket is currently empty</div>
+        }
+    }
+
+    const calculateTotal = (cartItems) => {
+        cartItems.forEach(e => {
+            total += parseInt(e.price, 10) * parseInt(e.quantity, 10)
+        });
+    }
 
     const BasketContainer = {
         display: 'grid',
@@ -29,7 +89,7 @@ export const Basket = () => {
     }
 
     const BasketButton = {
-        padding: '5px',
+        padding: '3px',
         width: 'fit-content',
         borderRadius: '10%',
         backgroundColor: '#ff0000',
@@ -45,7 +105,7 @@ export const Basket = () => {
     }
 
     const CheckoutButton = {
-        padding: '5px',
+        padding: '2px',
         width: 'fit-content',
         borderRadius: '10%',
         backgroundColor: '#0594f9',
@@ -53,7 +113,6 @@ export const Basket = () => {
         border: 'none',
         marginLeft: 'auto',
         cursor: hover ? 'pointer' : 'auto'
-
     }
 
     return (
@@ -74,16 +133,17 @@ export const Basket = () => {
                 <div style={BasketHeaderLine}>
                 </div>
                 <div style={BasketHeader}>
-                    Cart Items
+                    {renderCart()}
                 </div>
                 <div style={BasketHeaderLine}>
                 </div>
                 <div style={BasketButton}
+                    onClick={() => clearCart()}
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}>
                     Clear
                 </div>
-                <div style={BasketTotal}>Total: $0</div>
+                <div style={BasketTotal}>Total: ${total}</div>
             </div>
         </div >
     )
