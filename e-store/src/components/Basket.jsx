@@ -35,7 +35,7 @@ export const Basket = () => {
         //render cart
         const cartItems = getItems();
         //calculte total
-        calculateTotal();
+        calculateTotal(cartItems);
         console.log(cartItems)
         if (cartItems.length > 0) {
             return cartItems.map(e => (
@@ -58,7 +58,7 @@ export const Basket = () => {
         }
     }
 
-    const calculateTotal = () => {
+    const calculateTotal = (cartItems) => {
         cartItems.forEach(e => {
             total += parseInt(e.price, 10) * parseInt(e.quantity, 10)
         });
