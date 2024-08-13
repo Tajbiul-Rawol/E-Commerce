@@ -34,9 +34,8 @@ export const Basket = () => {
     const renderCart = () => {
         //render cart
         const cartItems = getItems();
-        cartItems.forEach(e => {
-            total += parseInt(e.price, 10) * parseInt(e.quantity, 10)
-        });
+        //calculte total
+        calculateTotal();
         console.log(cartItems)
         if (cartItems.length > 0) {
             return cartItems.map(e => (
@@ -57,6 +56,12 @@ export const Basket = () => {
         } else {
             return <div>The Basket is currently empty</div>
         }
+    }
+
+    const calculateTotal = () => {
+        cartItems.forEach(e => {
+            total += parseInt(e.price, 10) * parseInt(e.quantity, 10)
+        });
     }
 
     const BasketContainer = {
