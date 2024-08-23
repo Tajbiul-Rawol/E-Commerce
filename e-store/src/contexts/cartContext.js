@@ -22,6 +22,7 @@ const CartContextprovider = ({ children }) => {
     }
 
     const increaseQuantity = payload => {
+        debugger;
         console.log(payload);
         dispatch({ type: 'INCQTY', payload });
     }
