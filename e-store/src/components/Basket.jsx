@@ -1,12 +1,15 @@
 import React, { useState, useContext } from 'react'
 import { CartContext } from '../contexts/cartContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 
 export const Basket = () => {
 
     const [hover, setHover] = useState(false);
     const navigate = useNavigate();
-    const { getItems, clearBasket } = useContext(CartContext);
+    const { getItems, clearBasket, increaseQuantity,decreaseQuantity,removeProduct } = useContext(CartContext);
     var total = 0;
 
     const itemTitle = {
@@ -46,10 +49,13 @@ export const Basket = () => {
                         </Link>
                     </div>
                     <div style={itemQuantity}>
-                        {e.quantity}
+                        {e.quantity} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <FontAwesomeIcon onClick={()=>{ increaseQuantity(e)}} icon={faPlus}/>&nbsp;&nbsp;
+                        <FontAwesomeIcon icon={faMinus} onClick={()=>{ decreaseQuantity(e)}} />&nbsp;&nbsp;
+                        <FontAwesomeIcon icon={faTrash} onClick={()=>{ removeProduct(e)}} />&nbsp;&nbsp;
                     </div>
                     <div style={itemPrice}>
-                        {e.price}
+                        ${e.price}
                     </div>
                 </>
             ));
@@ -101,7 +107,7 @@ export const Basket = () => {
     const BasketTotal = {
         fontSize: '20px',
         fontWeight: 'bold',
-        padding: '20px'
+        padding: '20px',
     }
 
     const CheckoutButton = {
@@ -121,6 +127,7 @@ export const Basket = () => {
             <button style={CheckoutButton}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
+                onClick={()=>{navigate('/checkout')}}
             >
                 Checkout
             </button>
@@ -143,8 +150,9 @@ export const Basket = () => {
                     onMouseLeave={() => setHover(false)}>
                     Clear
                 </div>
-                <div style={BasketTotal}>Total: ${total}</div>
             </div>
+            
+            <div style={BasketTotal}>Total: ${total}</div>
         </div >
     )
 }

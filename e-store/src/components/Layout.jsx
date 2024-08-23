@@ -1,8 +1,12 @@
+import { faBasketShopping, faHome } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 
 
 const Layout = ({ categories }) => {
+
+    const navigate = useNavigate();
 
     const renderCategories = () => {
         return categories.data.map(c =>
@@ -13,7 +17,13 @@ const Layout = ({ categories }) => {
 
     return (
         <>
-            <header> E-Store</header>
+            <header>
+               <Link to="/"><FontAwesomeIcon id="headerHomeIcon" icon={faHome} /></Link> 
+                <div id="headerHomeTitle">
+                    E-Store
+                </div>
+                <Link to="/basket"><FontAwesomeIcon icon={faBasketShopping} /></Link> 
+            </header>
             <section>
                 <nav>
                     {categories.message && <div>Error: {categories.message}</div>}
